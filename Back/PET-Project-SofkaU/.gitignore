@@ -6,6 +6,7 @@ target/
 
 ### service key firebase ###
 serviceAccountKey.json
+ServiceFirebaseJson.txt
 
 ### STS ###
 .apt_generated
