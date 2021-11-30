@@ -2,26 +2,24 @@ import React, { Fragment, useEffect, useState } from "react";
 import Users from "./components/Users";
 import axios from "axios";
 import { HOST_API } from "./config/hostApi";
-import { Col, Container, Row } from "reactstrap";
 
 function App() {
-
   const [usuarios, setUsuarios] = useState([]);
-  const cargarUsuarios = () => {
-    axios.get(HOST_API + "/usuarios/listar").then((data) => setUsuarios(data))
-  }
 
-  useEffect(cargarUsuarios, [])
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/usuario/listar/")
+      .then((response) => {
+        setUsuarios(response.data);
+        console.log(response.data)
+      })
+  }, []);
+
 
   return (
     <Fragment>
-      <Container>
-        <Row>
-          <Col>
-            <Users usuarios={usuarios} />
-          </Col>
-        </Row>
-      </Container>
+      <h3 className="text-center mt-3">Lista de Usuarios</h3>
+      <Users usuarios={usuarios} />
     </Fragment>
   );
 }

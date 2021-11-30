@@ -1,11 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 
 const Users = ({ usuarios }) => {
     return (
         <Fragment>
-            <h3>Lista de usuarios</h3>
             {usuarios.map(usuario =>
-                <div className="mb-2 border p-2" key={usuario.id}>
+                <div className="mb-3 border p-2 text-center" key={usuario.id}>
                     {usuario.nombre}
                 </div>
             )}
@@ -13,4 +12,4 @@ const Users = ({ usuarios }) => {
     )
 }
 
-export default Users
+export default Users;
