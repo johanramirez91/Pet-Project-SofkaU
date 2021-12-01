@@ -7,8 +7,8 @@ const NavbarComp = () => {
         <Fragment>
             <nav className="navbar navbar-dark bg-dark bg-gradient navbar-expand-lg">
                 <div className="container-fluid">
-                    <span className="navbar-brand">
-                        <img src={LogoCourseWare} alt="logo" width="120" href="/Home" />
+                    <span className="navbar-brand p-3">
+                        <img src={LogoCourseWare} alt="logo" width="150" href="/Home" />
                     </span>
                 </div>
             </nav>
