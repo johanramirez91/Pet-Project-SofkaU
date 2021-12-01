@@ -30,6 +30,10 @@ const Users = () => {
                             <div className="d-flex justify-content-center mb-2 mt-2">
                                 <div className="mb-3 border rounded p-2 text-center" key={usuario.id}>
                                     {usuario.nombre}
+                                    <br />
+                                    {usuario.rol}
+                                    <br />
+                                    {usuario.telefono}
                                 </div>
                             </div>
                         )}
