@@ -1,14 +1,15 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
+import UsuarioFrom from './usuario/usuarioFrom';
 
 const Users = () => {
-
     const [loading, setLoading] = useState(true)
     const [usuarios, setUsuarios] = useState([]);
     const [busqueda, setBusqueda] = useState("")
+    //const { state: { usuario }, dispatch } = useContext(ContextoUsuario);
 
     const handleChange = event => {
         setBusqueda(event.target.value);
@@ -25,10 +26,28 @@ const Users = () => {
         setUsuarios(resultado);
     }
 
+    const onAdd = () => {
+        <UsuarioFrom/>
+    };
+
+    const onEdit = (usuario) => {
+        <UsuarioFrom/>
+    };
+
     const onDelete = async (idUsuario) => {
         if (window.confirm('¿Está seguro de eliminar el usuario?')) {
-            cargarUsuarios()
+            eliminarUsuarios(idUsuario);
+            cargarUsuarios();
         }
+    }
+
+    const eliminarUsuarios = async (idUsuario) => {
+        setLoading(true)
+        const usuarioEliminado = await axios.delete(HOST_API + "/usuario/"+idUsuario).then(response => {
+            console.log("Respuesta al eliminar-->" + response.data)
+            setLoading(false)
+        });
+        
     }
 
     const cargarUsuarios = async () => {
@@ -86,8 +105,10 @@ const Users = () => {
                                         <td>{usuario.telefono}</td>
                                         <td>{usuario.ubicacion}</td>
                                         <td>{usuario.rol}</td>
-                                        <td>{usuario.fechaingreso}</td>
-                                        <td><button className="btn btn-danger">Eliminar</button></td>
+                                        <td>{usuario.fechaIngreso}</td>
+                                        <td><button className="btn btn-primary" onClick={() => onAdd(usuario)}>Añadir</button></td>
+                                        <td><button className="btn btn-success" onClick={() => onEdit(usuario)}>Editar</button></td>
+                                        <td><button className="btn btn-danger" onClick={() => onDelete(usuario.id)}>Eliminar</button></td>
                                     </tr>
                                 ))
                                 }
