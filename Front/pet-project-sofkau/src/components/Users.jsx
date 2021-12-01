@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
 
@@ -7,15 +8,44 @@ const Users = () => {
 
     const [loading, setLoading] = useState(true)
     const [usuarios, setUsuarios] = useState([]);
+    const [busqueda, setBusqueda] = useState("")
 
-    useEffect(() => {
-        axios
+    const handleChange = event => {
+        setBusqueda(event.target.value);
+        buscar(event.target.value);
+    }
+
+    const buscar = async (textoBusqueda) => {
+        let resultado = await usuarios.filter((elemento) => {
+            if (elemento.nombre.toLowerCase().includes(textoBusqueda.toLowerCase())
+                || elemento.rol.toLowerCase().includes(textoBusqueda.toLowerCase())) {
+                return elemento;
+            }
+        });
+        setUsuarios(resultado);
+    }
+
+    const onDelete = async (idUsuario) => {
+        if (window.confirm('¿Está seguro de eliminar el usuario?')) {
+            cargarUsuarios()
+        }
+    }
+
+    const cargarUsuarios = async () => {
+        setLoading(true)
+        const listaTemporal = await axios
             .get(HOST_API + "/usuario/listar/")
             .then((response) => {
                 setUsuarios(response.data);
                 console.log(response.data)
                 setLoading(false)
+
             })
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        cargarUsuarios()
     }, []);
 
     return (
@@ -26,17 +56,43 @@ const Users = () => {
                     <Loading />
                     :
                     <div>
-                        {usuarios.map(usuario =>
-                            <div className="d-flex justify-content-center mb-2 mt-2">
-                                <div className="mb-3 border rounded p-2 text-center" key={usuario.id}>
-                                    {usuario.nombre}
-                                    <br />
-                                    {usuario.rol}
-                                    <br />
-                                    {usuario.telefono}
-                                </div>
-                            </div>
-                        )}
+                        <h3 className="text-center mt-3">Lista de Usuarios</h3>
+                        <hr />
+                        <form className="d-flex">
+                            {<input className="form-control me-2" placeholder="Buscar"
+                                value={busqueda} onChange={handleChange} />}
+                            <button className="btn btn-outline-secondary" type="submit">Buscar</button>
+                        </form>
+                        <br />
+                        <table className="table table-hover align-middle text-center table-responsive">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Teléfono</th>
+                                    <th scope="col">Ubicación</th>
+                                    <th scope="col">rol</th>
+                                    <th scope="col">Ingreso</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {usuarios.map((usuario, index) => (
+                                    <tr key={usuario.id}>
+                                        <th scope="row">{index + 1}</th>
+                                        <td>{usuario.nombre}</td>
+                                        <td>{usuario.correo}</td>
+                                        <td>{usuario.telefono}</td>
+                                        <td>{usuario.ubicacion}</td>
+                                        <td>{usuario.rol}</td>
+                                        <td>{usuario.fechaingreso}</td>
+                                        <td><button className="btn btn-danger">Eliminar</button></td>
+                                    </tr>
+                                ))
+                                }
+                            </tbody>
+                        </table>
                     </div>
             }
         </Fragment>

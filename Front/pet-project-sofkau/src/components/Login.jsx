@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import GoogleLogin from 'react-google-login';
+import { HOST_API } from '../config/hostApi';
 
 const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [user, setUser] = useState()
 
     // Estados Error
     const [errorEmail, setErrorEmail] = useState(null)
@@ -12,7 +15,6 @@ const Login = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        let mensajeError = "";
 
         // Validaciones input iniciar sesión
         if (!email.trim()) {
@@ -27,7 +29,6 @@ const Login = () => {
 
         // Validaciones Firebase
         if (password.length < 6) {
-            console.error('Ingresa una constraseña mayor a 6 caracteres')
             setErrorPassword('Ingresa una contraseña mayor a 6 caracteres')
             return
         }
@@ -40,6 +41,16 @@ const Login = () => {
 
     const responseGoogle = (response) => {
         console.log(response.profileObj);
+    }
+
+    const handleCheckbox = async (event) => {
+        event.preventDefault();
+        const user = { email, password };
+        localStorage.setItem("user", user);
+    }
+
+    if (user) {
+        return <div>{user.email}, ya has iniciado sesión</div>;
     }
 
     return (
@@ -63,7 +74,7 @@ const Login = () => {
                                 type="email"
                                 className={`form-control mb-2 ` + (errorEmail ? 'is-invalid' : '')}
                                 placeholder="Ingresa tu email"
-                                onChange={e => setEmail(e.target.value)}
+                                onChange={event => setEmail(event.target.value)}
                                 value={email}
                             />
                             {
@@ -84,7 +95,7 @@ const Login = () => {
                                 className={`form-control mb-2 ` + (errorPassword ? 'is-invalid' : '')}
                                 placeholder="Ingresa tu contraseña"
                                 value={password}
-                                onChange={e => setPassword(e.target.value)}
+                                onChange={event => setPassword(event.target.value)}
                             />
                             {
                                 errorPassword ?
@@ -99,7 +110,12 @@ const Login = () => {
 
                         <div className="form-group  p-3">
                             <div className="custom-control custom-checkbox">
-                                <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                                <input
+                                    type="checkbox"
+                                    className="custom-control-input"
+                                    id="customCheck1"
+                                    onClick={handleCheckbox}
+                                />
                                 <label className="custom-control-label m-2" htmlFor="customCheck1">Recuerdame</label>
                             </div>
                         </div>
