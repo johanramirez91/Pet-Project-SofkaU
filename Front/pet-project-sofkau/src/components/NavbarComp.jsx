@@ -5,12 +5,10 @@ import LogoCourseWare from "./LogoCourseWare.png"
 const NavbarComp = () => {
     return (
         <Fragment>
-            <nav className="navbar navbar-dark bg-warning bg-gradient navbar-expand-lg">
+            <nav className="navbar navbar-dark bg-dark bg-gradient navbar-expand-lg">
                 <div className="container-fluid">
                     <span className="navbar-brand">
-                        <Link to="/Home">
-                            <img src={LogoCourseWare} alt="logo" width="200" href="/Home" />
-                        </Link>
+                        <img src={LogoCourseWare} alt="logo" width="120" href="/Home" />
                     </span>
                 </div>
             </nav>
