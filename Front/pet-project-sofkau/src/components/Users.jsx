@@ -3,17 +3,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
+import bootbox from 'bootbox';
 
 const Users = () => {
 
     const [loading, setLoading] = useState(true)
     const [usuarios, setUsuarios] = useState([]);
     const [busqueda, setBusqueda] = useState("")
-
-    const handleChange = event => {
-        setBusqueda(event.target.value);
-        buscar(event.target.value);
-    }
 
     const buscar = async (textoBusqueda) => {
         let resultado = await usuarios.filter((elemento) => {
@@ -23,6 +19,15 @@ const Users = () => {
             }
         });
         setUsuarios(resultado);
+    }
+
+    const handleChange = event => {
+        setBusqueda(event.target.value);
+        buscar(event.target.value);
+    }
+
+    const validate = (usuario) => {
+
     }
 
     const onDelete = async (idUsuario) => {
@@ -87,7 +92,9 @@ const Users = () => {
                                         <td>{usuario.ubicacion}</td>
                                         <td>{usuario.rol}</td>
                                         <td>{usuario.fechaingreso}</td>
-                                        <td><button className="btn btn-danger">Eliminar</button></td>
+                                        <td><button
+                                            className="btn btn-danger m-2"
+                                            onClick={() => validate(usuario.id)}>Eliminar</button></td>
                                     </tr>
                                 ))
                                 }
