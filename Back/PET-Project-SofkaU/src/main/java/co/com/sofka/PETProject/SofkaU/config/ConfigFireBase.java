@@ -18,7 +18,7 @@ public class ConfigFireBase {
 
     @PostConstruct
     private void iniFireStore() throws Exception{
-        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json");
+        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("ServiceFirebaseJson.json");
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))

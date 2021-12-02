@@ -1,24 +1,24 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Users from "./components/Users";
 import NavbarComp from "./components/NavbarComp";
 import Login from "./components/Login";
 import StoreFromProvider from "./components/usuario/contexto/StateUsuario";
 import UsuarioFrom from "./components/usuario/usuarioFrom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
 
   return (
-    <Fragment>
+    <Router>
       <StoreFromProvider>
         <NavbarComp />
-        <Users />
-        <div>
-          <Login />
-        </div>
-        
-        <UsuarioFrom/>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/usuarios" element={<Users />} />
+          <Route path="/addUsuario" element={<UsuarioFrom />} />
+        </Routes>
       </StoreFromProvider>
-    </Fragment>
+    </Router>
   );
 }
 

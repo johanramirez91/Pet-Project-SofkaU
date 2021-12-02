@@ -1,16 +1,15 @@
 package co.com.sofka.PETProject.SofkaU.service;
 
 import co.com.sofka.PETProject.SofkaU.config.ConfigFireBase;
+import co.com.sofka.PETProject.SofkaU.modeldto.Rol;
 import co.com.sofka.PETProject.SofkaU.modeldto.Usuario;
 import co.com.sofka.PETProject.SofkaU.repository.UsuarioService;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +20,8 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Autowired
     ConfigFireBase fireBase;
+
+    Usuario usuario;
 
     @Override
     public List<Usuario> list() {
@@ -37,6 +38,28 @@ public class UsuarioServiceImp implements UsuarioService {
         }catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public Usuario getById(String id) {
+        usuario = new Usuario();
+        System.out.println("ID-->"+id);
+        DocumentReference documentReference = getCollection().document(id);
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirestoreException e) {
+                usuario.setId(id);
+                usuario.setEmail(documentSnapshot.getString("Email"));
+                usuario.setNombre(documentSnapshot.getString("Nombre"));
+                usuario.setFechaIngreso(documentSnapshot.getString("FechaIngreso"));
+                usuario.setUbicacion(documentSnapshot.getString("Ubicacion"));
+                usuario.setTelefono(documentSnapshot.getString("Telefono"));
+                usuario.setRol(Rol.valueOf(documentSnapshot.getString("rol")));
+                System.out.println("a-->" + usuario.toString());
+            }
+        });
+        System.out.println("f-->" + usuario.toString());
+        return usuario;
     }
 
     @Override

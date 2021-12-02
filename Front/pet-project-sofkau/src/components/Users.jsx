@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
 import UsuarioFrom from './usuario/usuarioFrom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const Users = () => {
     const [loading, setLoading] = useState(true)
@@ -27,11 +27,11 @@ const Users = () => {
     }
 
     const onAdd = () => {
-        <UsuarioFrom/>
+        location.href = "http://localhost:3000/addUsuario";
     };
 
-    const onEdit = (usuario) => {
-        <UsuarioFrom/>
+    const onEdit = (id) => {
+        location.href = "http://localhost:3000/editar/:"+id;
     };
 
     const onDelete = async (idUsuario) => {
@@ -43,11 +43,11 @@ const Users = () => {
 
     const eliminarUsuarios = async (idUsuario) => {
         setLoading(true)
-        const usuarioEliminado = await axios.delete(HOST_API + "/usuario/"+idUsuario).then(response => {
+        const usuarioEliminado = await axios.delete(HOST_API + "/usuario/" + idUsuario).then(response => {
             console.log("Respuesta al eliminar-->" + response.data)
             setLoading(false)
         });
-        
+
     }
 
     const cargarUsuarios = async () => {
