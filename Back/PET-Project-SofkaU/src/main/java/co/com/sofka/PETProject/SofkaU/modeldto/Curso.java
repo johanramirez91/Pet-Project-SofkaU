@@ -7,6 +7,7 @@ public class Curso {
 
     private String id;
     private String Nombre;
+    private String Descripcion;
     private Double Precio;
     private String Disponibilidad;
     private int Duracion;

@@ -97,6 +97,7 @@ public class CursoServiceImp implements CursoService {
     private Map<String, Object> getStringObjectMap(Curso curso) {
         Map<String, Object> docAdd = new HashMap<>();
         docAdd.put("Nombre", curso.getNombre());
+        docAdd.put("Descripcion", curso.getDescripcion());
         docAdd.put("Duracion", curso.getDuracion());
         docAdd.put("Precio", curso.getPrecio());
         docAdd.put("Disponibilidad", curso.getDisponibilidad());
