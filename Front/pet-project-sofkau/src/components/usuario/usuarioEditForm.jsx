@@ -1,13 +1,27 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import { HOST_API } from '../../config/hostApi';
+import ContextoUsuario from './contexto/ContextoUsuario';
+import Select from 'react-select'
 import axios from 'axios';
+import { useParams } from 'react-router';
 
-const UsuarioEditForm = (id) => {
+const UsuarioEditForm = () => {
 
+    let { id } = useParams();
+
+    const formRef = useRef(null);
+    const { state: { usuario } } = useContext(ContextoUsuario);
+    const item = usuario.item;
+    const [state, setState] = useState(item);
+    const options = [
+        { value: 'ESTUDIANTE', label: 'ESTUDIANTE' },
+        { value: 'ADMINISTRADOR', label: 'ADMINISTRADOR' },
+        { value: 'PROFESOR', label: 'PROFESOR' }
+    ]
     const [loading, setLoading] = useState(true)
     const [usuarios, setUsuarios] = useState([]);
 
-    const cargarUsuarios = async () => {
+    const cargarUsuario = async () => {
         setLoading(true)
         const listaTemporal = await axios
             .get(HOST_API + "/usuario/" + id)
@@ -21,7 +35,7 @@ const UsuarioEditForm = (id) => {
     }
 
     useEffect(() => {
-        cargarUsuarios()
+        cargarUsuario()
     }, []);
 
     const onEdit = (event) => {
@@ -29,7 +43,7 @@ const UsuarioEditForm = (id) => {
 
         const request = {
             nombre: state.nombre,
-            id: state.id,
+            id: id,
             rol: state.rol,
             email: state.email,
             telefono: state.telefono,
@@ -37,7 +51,7 @@ const UsuarioEditForm = (id) => {
             fechaIngreso: state.fechaIngreso
         };
 
-        axios.put(HOST_API + "/usuario/" + state.id, request).then(response => {
+        axios.put(HOST_API + "/usuario/" + id, request).then(response => {
             console.log("Retorno de editar-->" + response.data);
             formRef.current.reset();
         })
@@ -58,7 +72,7 @@ const UsuarioEditForm = (id) => {
                     type="text"
                     name="nombre"
                     placeholder="nombre"
-                    defaultValue={item.nombre}
+                    defaultValue={usuarios.nombre}
                     onChange={(event) => {
                         setState({ ...state, nombre: event.target.value })
                     }}  ></input>
@@ -67,7 +81,7 @@ const UsuarioEditForm = (id) => {
                     type="text"
                     name="email"
                     placeholder="email"
-                    defaultValue={item.email}
+                    defaultValue={usuarios.email}
                     onChange={(event) => {
                         setState({ ...state, email: event.target.value })
                     }}  ></input>
@@ -94,7 +108,7 @@ const UsuarioEditForm = (id) => {
                     type="date"
                     name="fechaIngreso"
                     placeholder="fechaIngreso"
-                    defaultValue={item.fechaIngreso}
+                    defaultValue={usuarios.fechaIngreso}
                     onChange={(event) => {
                         setState({ ...state, fechaIngreso: event.target.value })
                     }}  ></input>
