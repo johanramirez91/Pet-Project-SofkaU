@@ -4,17 +4,12 @@ import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
 import UsuarioFrom from './usuario/usuarioFrom';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import swal from 'sweetalert';
 
 const Users = () => {
     const [loading, setLoading] = useState(true)
     const [usuarios, setUsuarios] = useState([]);
     const [busqueda, setBusqueda] = useState("")
-    //const { state: { usuario }, dispatch } = useContext(ContextoUsuario);
-
-    const handleChange = event => {
-        setBusqueda(event.target.value);
-        buscar(event.target.value);
-    }
 
     const buscar = async (textoBusqueda) => {
         let resultado = await usuarios.filter((elemento) => {
@@ -26,45 +21,73 @@ const Users = () => {
         setUsuarios(resultado);
     }
 
+    const handleChange = event => {
+        setBusqueda(event.target.value);
+        buscar(event.target.value);
+    }
+
+    const validate = (idUsuario) => {
+        swal({
+            title: "¿Eliminar?",
+            text: "¡Recuerda, al eliminar no podrás recuperar este dato!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((eliminar) => {
+                if (eliminar) {
+                    swal("¡Se ha eliminado con exito!", {
+                        icon: "success",
+                    });
+                    eliminarUsuario(idUsuario)
+                } else {
+                    swal("uff, que bueno que preguntamos");
+                }
+            });
+    }
+
     const onAdd = () => {
         location.href = "http://localhost:3000/addUsuario";
     };
 
     const onEdit = (id) => {
-        location.href = "http://localhost:3000/editar/:"+id;
+        location.href = "http://localhost:3000/editar/:" + id;
     };
 
-    const onDelete = async (idUsuario) => {
-        if (window.confirm('¿Está seguro de eliminar el usuario?')) {
-            eliminarUsuarios(idUsuario);
-            cargarUsuarios();
-        }
+
+    const eliminarUsuario = (idUsuario) => {
+        console.log(idUsuario)
+        axios.delete(HOST_API + "/usuario/" + idUsuario)
+            .then(response => {
+                console.log("Respuesta al eliminar-->" + response.data)
+                cargarUsuarios();
+            });
+
     }
 
-    const eliminarUsuarios = async (idUsuario) => {
+    const cargarUsuarios = () => {
         setLoading(true)
         const usuarioEliminado = await axios.delete(HOST_API + "/usuario/" + idUsuario).then(response => {
             console.log("Respuesta al eliminar-->" + response.data)
             setLoading(false)
         });
-
+        axios
+            .get(HOST_API + "/usuario/listar/")
+            .then((get) => {
+                setUsuarios(get.data);
+                console.log(get.data)
+                setLoading(false)
+            })
     }
 
-    const cargarUsuarios = async () => {
-        setLoading(true)
-        const listaTemporal = await axios
+    useEffect(() => {
+        axios
             .get(HOST_API + "/usuario/listar/")
             .then((response) => {
                 setUsuarios(response.data);
                 console.log(response.data)
                 setLoading(false)
-
             })
-        setLoading(false)
-    }
-
-    useEffect(() => {
-        cargarUsuarios()
     }, []);
 
     return (
@@ -97,7 +120,7 @@ const Users = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {usuarios.map((usuario, index) => (
+                                {usuarios && usuarios.map((usuario, index) => (
                                     <tr key={usuario.id}>
                                         <th scope="row">{index + 1}</th>
                                         <td>{usuario.nombre}</td>
@@ -106,9 +129,12 @@ const Users = () => {
                                         <td>{usuario.ubicacion}</td>
                                         <td>{usuario.rol}</td>
                                         <td>{usuario.fechaIngreso}</td>
-                                        <td><button className="btn btn-primary" onClick={() => onAdd(usuario)}>Añadir</button></td>
-                                        <td><button className="btn btn-success" onClick={() => onEdit(usuario)}>Editar</button></td>
-                                        <td><button className="btn btn-danger" onClick={() => onDelete(usuario.id)}>Eliminar</button></td>
+                                        <td>
+                                            <button className="btn btn-warning m-3"
+                                                onClick={() => onEdit(usuario)}>Editar</button>
+                                            <button className="btn btn-danger"
+                                                onClick={() => eliminarUsuario(usuario.id)}>Eliminar</button>
+                                        </td>
                                     </tr>
                                 ))
                                 }
