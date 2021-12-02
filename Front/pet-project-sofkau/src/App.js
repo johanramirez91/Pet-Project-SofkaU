@@ -6,6 +6,7 @@ import StoreFromProvider from "./components/usuario/contexto/StateUsuario";
 import UsuarioFrom from "./components/usuario/usuarioFrom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UsuarioEditForm from "./components/usuario/usuarioEditForm";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/addUsuario" element={<UsuarioFrom />} />
           <Route path="/editar/:id" element={<UsuarioEditForm />} />
         </Routes>
+        <Footer />
       </StoreFromProvider>
     </Router>
   );
