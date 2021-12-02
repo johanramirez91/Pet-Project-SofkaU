@@ -92,16 +92,18 @@ const Courses = () => {
                 <div className="container-fluid container-md">
                     <h2 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }}>Lista de Cursos</h2>
                     <hr />
-                    <div className="d-flex">
-                        <form >
-                            {<input className="form-control m-3" placeholder="Buscar"
-                                value={busqueda} onChange={handleChange} />}
-                        </form>
-                        <button className="btn btn-primary m-3"
+                    <div className="position-relative p-4">
+                        <button className="btn btn-dark position-absolute start-50 translate-middle"
                             onClick={onAdd}>Agregar curso</button>
                     </div>
+                    <div className="container-fluid p-3">
+                        <form >
+                            {<input className="form-control" placeholder="Buscar"
+                                value={busqueda} onChange={handleChange} />}
+                        </form>
+                    </div>
                     <br />
-                    <table className="table table-hover align-middle text-center table-responsive">
+                    <table className="table table-hover align-middle text-center table-responsive p-3">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
