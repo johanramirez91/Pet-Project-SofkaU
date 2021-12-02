@@ -15,6 +15,7 @@ function Logout() {
                 clientId={clientId}
                 buttonText="Salir"
                 onLogoutSuccess={onSucces}
+                redi
             />
         </div>
     )

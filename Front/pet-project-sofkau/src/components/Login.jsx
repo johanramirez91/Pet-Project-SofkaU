@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import GoogleLogin from 'react-google-login';
-import { HOST_API } from '../config/hostApi';
+import useHistory from 'react-router';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 const Login = () => {
 

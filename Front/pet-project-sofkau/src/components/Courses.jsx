@@ -26,6 +26,25 @@ const Courses = () => {
         buscar(event.target.value);
     }
 
+    const cargarCursos = async () => {
+        setLoading(true)
+        axios
+            .get(HOST_API_CURSO + "/listar")
+            .then((get) => {
+                setCursos(get.data);
+                console.log(get.data)
+                setLoading(false)
+            })
+    }
+
+    const eliminarCurso = (idCurso) => {
+        console.log(idCurso)
+        axios.delete(HOST_API_CURSO + "/" + idCurso)
+            .then(response => {
+                cargarCursos();
+            });
+    }
+
     const validate = (idCurso) => {
         swal({
             title: "¿Eliminar?",
@@ -53,27 +72,6 @@ const Courses = () => {
     const onEdit = (id) => {
         location.href = "http://localhost:3000/editarCurso/" + id;
     };
-
-
-    const eliminarCurso = (idCurso) => {
-        console.log(idCurso)
-        axios.delete(HOST_API_CURSO + "/" + idCurso)
-            .then(response => {
-                cargarCursos();
-            });
-
-    }
-
-    const cargarCursos = async () => {
-        setLoading(true)
-        axios
-            .get(HOST_API_CURSO + "/listar")
-            .then((get) => {
-                setCursos(get.data);
-                console.log(get.data)
-                setLoading(false)
-            })
-    }
 
     useEffect(() => {
         axios
