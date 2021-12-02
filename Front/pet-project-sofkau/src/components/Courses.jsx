@@ -13,9 +13,8 @@ const Courses = () => {
     const buscar = (textoBusqueda) => {
         let resultado = cursos.filter((elemento) => {
             if (elemento.nombre.toLowerCase().includes(textoBusqueda.toLowerCase())
-                || elemento.rol.toLowerCase().includes(textoBusqueda.toLowerCase())
-                || elemento.ubicacion.toLowerCase().includes(textoBusqueda.toLowerCase())
-                || elemento.fechaIngreso.includes(textoBusqueda.toLowerCase())) {
+                || elemento.disponibilidad.toLowerCase().includes(textoBusqueda.toLowerCase())
+                || elemento.descripcion.toLowerCase().includes(textoBusqueda.toLowerCase())) {
                 return elemento;
             }
         });
