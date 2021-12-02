@@ -56,7 +56,7 @@ const UsuarioFrom = () => {
 
   return (
     <form className="form-inline" ref={formRef}>
-      <div className="shadow p-4 mb-2 bg-white rounded form-group mx-10">
+      <div className="container-md shadow p-4 mb-2 bg-white rounded form-group mx-10">
         <Select
           placeholder="Seleccione un rol"
           name="rol"
@@ -110,8 +110,8 @@ const UsuarioFrom = () => {
             setState({ ...state, fechaIngreso: event.target.value })
           }}  ></input>
         <div className="m-4">
-          {item.id && <button className="btn btn-primary btn-lg" onClick={onEdit}>Actualizar</button>}
-          {!item.id && <button className="btn btn-primary btn-lg" onClick={onAdd}>Crear</button>}
+          {item.id && <button className="btn btn-primary btn-md" onClick={onEdit}>Actualizar</button>}
+          {!item.id && <button className="btn btn-primary btn-md" onClick={onAdd}>Crear</button>}
         </div>
 
       </div>

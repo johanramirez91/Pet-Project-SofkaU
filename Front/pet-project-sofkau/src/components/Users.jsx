@@ -6,15 +6,18 @@ import { HOST_API } from "../config/hostApi";
 import UsuarioFrom from './usuario/usuarioFrom';
 import swal from 'sweetalert';
 
+
 const Users = () => {
     const [loading, setLoading] = useState(true)
     const [usuarios, setUsuarios] = useState([]);
     const [busqueda, setBusqueda] = useState("")
 
-    const buscar = async (textoBusqueda) => {
-        let resultado = await usuarios.filter((elemento) => {
+    const buscar = (textoBusqueda) => {
+        let resultado = usuarios.filter((elemento) => {
             if (elemento.nombre.toLowerCase().includes(textoBusqueda.toLowerCase())
-                || elemento.rol.toLowerCase().includes(textoBusqueda.toLowerCase())) {
+                || elemento.rol.toLowerCase().includes(textoBusqueda.toLowerCase())
+                || elemento.ubicacion.toLowerCase().includes(textoBusqueda.toLowerCase())
+                || elemento.fechaIngreso.includes(textoBusqueda.toLowerCase())) {
                 return elemento;
             }
         });
@@ -45,10 +48,6 @@ const Users = () => {
                 }
             });
     }
-
-    const onAdd = () => {
-        <UsuarioFrom />
-    };
 
     const onEdit = (usuario) => {
         <UsuarioFrom />
@@ -87,55 +86,50 @@ const Users = () => {
 
     return (
         <Fragment>
-            {
-                loading
-                    ?
-                    <Loading />
-                    :
-                    <div>
-                        <h3 className="text-center mt-3">Lista de Usuarios</h3>
-                        <hr />
-                        <form className="d-flex">
-                            {<input className="form-control me-2" placeholder="Buscar"
-                                value={busqueda} onChange={handleChange} />}
-                            <button className="btn btn-outline-secondary" type="submit">Buscar</button>
-                        </form>
-                        <br />
-                        <table className="table table-hover align-middle text-center table-responsive">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Teléfono</th>
-                                    <th scope="col">Ubicación</th>
-                                    <th scope="col">rol</th>
-                                    <th scope="col">Ingreso</th>
-                                    <th scope="col">Acciones</th>
+            {loading ? <Loading /> :
+                <div className="container-fluid container-md">
+                    <h2 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }}>Lista de Usuarios</h2>
+                    <hr />
+                    <form className="d-flex">
+                        {<input className="form-control me-2" placeholder="Buscar"
+                            value={busqueda} onChange={handleChange} />}
+                    </form>
+                    <br />
+                    <table className="table table-hover align-middle text-center table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Ubicación</th>
+                                <th scope="col">rol</th>
+                                <th scope="col">Ingreso</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {usuarios && usuarios.map((usuario, index) => (
+                                <tr key={usuario.id}>
+                                    <th scope="row">{index + 1}</th>
+                                    <td>{usuario.nombre}</td>
+                                    <td>{usuario.correo}</td>
+                                    <td>{usuario.telefono}</td>
+                                    <td>{usuario.ubicacion}</td>
+                                    <td>{usuario.rol}</td>
+                                    <td>{usuario.fechaIngreso}</td>
+                                    <td>
+                                        <button className="btn btn-warning m-3"
+                                            onClick={() => onEdit(usuario)}>Editar</button>
+                                        <button className="btn btn-danger"
+                                            onClick={() => validate(usuario.id)}>Eliminar</button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {usuarios && usuarios.map((usuario, index) => (
-                                    <tr key={usuario.id}>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>{usuario.nombre}</td>
-                                        <td>{usuario.correo}</td>
-                                        <td>{usuario.telefono}</td>
-                                        <td>{usuario.ubicacion}</td>
-                                        <td>{usuario.rol}</td>
-                                        <td>{usuario.fechaIngreso}</td>
-                                        <td>
-                                            <button className="btn btn-warning m-3"
-                                                onClick={() => onEdit(usuario)}>Editar</button>
-                                            <button className="btn btn-danger"
-                                                onClick={() => eliminarUsuario(usuario.id)}>Eliminar</button>
-                                        </td>
-                                    </tr>
-                                ))
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
         </Fragment>
     )
