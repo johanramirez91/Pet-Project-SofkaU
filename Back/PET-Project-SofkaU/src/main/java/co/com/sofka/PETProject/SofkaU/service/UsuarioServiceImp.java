@@ -23,11 +23,11 @@ public class UsuarioServiceImp implements UsuarioService {
     public List<Usuario> list() {
         List<Usuario> response = new ArrayList<>();
         Usuario usuario;
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().get();
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = getCollection().get(); //Obtenemos las colleciones de datos que esta en FireBase
         try {
-            for (DocumentSnapshot doc : querySnapshotApiFuture.get().getDocuments()){
-                usuario = doc.toObject(Usuario.class);
-                usuario.setId(doc.getId());
+            for (DocumentSnapshot doc : querySnapshotApiFuture.get().getDocuments()){//Recorremos las colleciones
+                usuario = doc.toObject(Usuario.class);//Casteamos la coleccion al objeto Usuario.class
+                usuario.setId(doc.getId()); // Le inyectamos a nuestro objeto el id de la coleccion
                 response.add(usuario);
             }
             return  response;
@@ -39,7 +39,7 @@ public class UsuarioServiceImp implements UsuarioService {
     @Override
     public Usuario getById(String id) {
         Usuario usuario = new Usuario();
-        DocumentReference documentReference = getCollection().document(id);
+        DocumentReference documentReference = getCollection().document(id); // Obtenemos la collecion la cual concuerda con el ID pasado por parametro
         ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = documentReference.get();
         try {
             DocumentSnapshot documentSnapshot = documentSnapshotApiFuture.get();;
@@ -54,9 +54,9 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public Boolean add(Usuario usuario) {
-        Map<String, Object> docAdd = getStringObjectMap(usuario);
-        CollectionReference usuarios = getCollection();
-        ApiFuture<WriteResult> writeResultApiFuture = usuarios.document().create(docAdd);
+        Map<String, Object> docAdd = getStringObjectMap(usuario);//Guardamos el objeto que llega en un arreglo Map
+        CollectionReference usuarios = getCollection(); // Obtenemos todas las colleciones
+        ApiFuture<WriteResult> writeResultApiFuture = usuarios.document().create(docAdd); // Le enviamos la nueva lista de map a FireBase
         try {
             if(null != writeResultApiFuture.get()){
                 return true;
@@ -69,8 +69,8 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public Boolean edit(String id, Usuario usuario) {
-        Map<String, Object> docEdit = getStringObjectMap(usuario);
-        ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).set(docEdit);
+        Map<String, Object> docEdit = getStringObjectMap(usuario); //Guardamos el objeto que llega en un arreglo Map
+        ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).set(docEdit);// Obtenemos el arreglo por el ID que pasamos por parametro y le enviamos la nueva lista de map a FireBase
         try {
             if(null != writeResultApiFuture.get()){
                 return true;
@@ -83,7 +83,7 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public Boolean delete(String id) {
-        ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).delete();
+        ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).delete();  //Obtenemos el arreglo por el ID que pasamos por parametro y eliminamos la collecion
         try {
             if(null != writeResultApiFuture.get()){
                 return true;
@@ -105,6 +105,7 @@ public class UsuarioServiceImp implements UsuarioService {
         return docAdd;
     }
 
+    //Obtenemos las collecciones (Datos) de la tabla cursos
     private CollectionReference getCollection(){
        return fireBase.firestore().collection("usuarios");
     }
