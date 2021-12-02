@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface CursoService {
     List<Curso> list();
+    Curso getById(String id);
     Boolean add(Curso curso);
     Boolean edit(String id, Curso curso);
     Boolean delete(String id);

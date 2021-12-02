@@ -4,10 +4,7 @@ import co.com.sofka.PETProject.SofkaU.config.ConfigFireBase;
 import co.com.sofka.PETProject.SofkaU.modeldto.Curso;
 import co.com.sofka.PETProject.SofkaU.repository.CursoService;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +32,22 @@ public class CursoServiceImp implements CursoService {
             }
             return  response;
         }catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Curso getById(String id) {
+       Curso curso =  new Curso();
+        DocumentReference documentReference = getCollection().document(id);
+        ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = documentReference.get();
+        try {
+            DocumentSnapshot documentSnapshot = documentSnapshotApiFuture.get();
+            curso = documentSnapshot.toObject(Curso.class);
+            curso.setId(id);
+            return curso;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
