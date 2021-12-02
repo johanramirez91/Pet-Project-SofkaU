@@ -20,6 +20,11 @@ public class CursoController {
         return new ResponseEntity(service.list(), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity getid(@PathVariable(value = "id") String id){
+        return new ResponseEntity(service.getById(id), HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity add(@RequestBody Curso curso){
         return new ResponseEntity(service.add(curso), HttpStatus.OK);

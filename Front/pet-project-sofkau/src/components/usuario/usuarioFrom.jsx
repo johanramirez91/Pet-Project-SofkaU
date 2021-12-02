@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const UsuarioFrom = () => {
   const formRef = useRef(null);
-  const { state: { usuario }, dispatch } = useContext(ContextoUsuario);
+  const { state: { usuario } } = useContext(ContextoUsuario);
   const item = usuario.item;
   const [state, setState] = useState(item);
   const options = [
@@ -33,25 +33,6 @@ const UsuarioFrom = () => {
       formRef.current.reset();
     })
 
-  }
-
-  const onEdit = (event) => {
-    event.preventDefault();
-
-    const request = {
-      nombre: state.nombre,
-      id: state.id,
-      rol: state.rol,
-      email: state.email,
-      telefono: state.telefono,
-      ubicacion: state.ubicacion,
-      fechaIngreso: state.fechaIngreso
-    };
-
-    axios.put(HOST_API + "/usuario/" + state.id, request).then(response => {
-      console.log("Retorno de editar-->" + response.data);
-      formRef.current.reset();
-    })
   }
 
   return (
@@ -110,8 +91,7 @@ const UsuarioFrom = () => {
             setState({ ...state, fechaIngreso: event.target.value })
           }}  ></input>
         <div className="m-4">
-          {item.id && <button className="btn btn-primary btn-md" onClick={onEdit}>Actualizar</button>}
-          {!item.id && <button className="btn btn-primary btn-md" onClick={onAdd}>Crear</button>}
+          <button className="btn btn-primary btn-lg" onClick={onAdd}>Crear</button>
         </div>
 
       </div>

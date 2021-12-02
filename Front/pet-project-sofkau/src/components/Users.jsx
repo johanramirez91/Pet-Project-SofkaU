@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
 import UsuarioFrom from './usuario/usuarioFrom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import swal from 'sweetalert';
 
 
@@ -49,9 +49,14 @@ const Users = () => {
             });
     }
 
-    const onEdit = (usuario) => {
-        <UsuarioFrom />
+    const onAdd = () => {
+        location.href = "http://localhost:3000/addUsuario";
     };
+
+    const onEdit = (id) => {
+        location.href = "http://localhost:3000/editar/:" + id;
+    };
+
 
     const eliminarUsuario = (idUsuario) => {
         console.log(idUsuario)
@@ -63,7 +68,7 @@ const Users = () => {
 
     }
 
-    const cargarUsuarios = () => {
+    const cargarUsuarios = async () => {
         setLoading(true)
         axios
             .get(HOST_API + "/usuario/listar/")

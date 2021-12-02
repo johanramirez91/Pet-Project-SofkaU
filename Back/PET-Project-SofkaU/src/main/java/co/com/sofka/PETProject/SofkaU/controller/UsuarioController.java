@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/usuario")
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin
 public class UsuarioController {
 
     @Autowired
@@ -19,6 +19,11 @@ public class UsuarioController {
     @GetMapping("/listar")
     public ResponseEntity listar(){
         return new ResponseEntity(service.list(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getid(@PathVariable(value = "id") String id){
+        return new ResponseEntity(service.getById(id), HttpStatus.OK);
     }
 
     @PostMapping("/add")
@@ -35,4 +40,5 @@ public class UsuarioController {
     public ResponseEntity delete(@PathVariable(value = "id") String id){
         return new ResponseEntity(service.delete(id), HttpStatus.OK);
     }
+
 }
