@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/curso")
-@CrossOrigin
+@CrossOrigin //Utilizamos esta anotacion para permitir el intercambio de solicitudes HTTPs
 public class CursoController {
 
     @Autowired
-    CursoServiceImp service;
+    CursoServiceImp service; //Creamos una instancia de CursoServiceImp, la cual tiene los metodos que utilizamos para el crud
 
     @GetMapping("/listar")
     public ResponseEntity listar(){

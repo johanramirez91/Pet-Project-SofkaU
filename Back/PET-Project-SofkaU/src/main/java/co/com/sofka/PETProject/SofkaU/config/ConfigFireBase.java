@@ -18,11 +18,12 @@ public class ConfigFireBase {
 
     @PostConstruct
     private void iniFireStore() throws Exception{
-        InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("ServiceFirebaseJson.json");
+        InputStream serviceAccount = getClass().getClassLoader().
+                getResourceAsStream("ServiceFirebaseJson.json"); //Se lee el archivo ServiceFirebaseJson que es el que trae las credenciales de firestore
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setDatabaseUrl("https://pet-project-sofkau.firebaseio.com/")
+                .setDatabaseUrl("https://pet-project-sofkau.firebaseio.com/") //Se especifica la ruta de la base de datos
                 .build();
 
         if(FirebaseApp.getApps().isEmpty()){
@@ -30,7 +31,7 @@ public class ConfigFireBase {
         }
     }
 
-    public Firestore firestore() {
+    public Firestore firestore() {//Tomamos la instancia creada de FireBase
         return FirestoreClient.getFirestore();
     }
 
