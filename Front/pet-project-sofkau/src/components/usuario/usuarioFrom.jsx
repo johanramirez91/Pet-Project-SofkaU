@@ -1,12 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
 import { HOST_API } from '../../config/hostApi';
-import ContextoUsuario from './contexto/ContextoUsuario';
+import Contexto from '../contexto/Contexto';
 import Select from 'react-select'
 import axios from 'axios';
 
 const UsuarioFrom = () => {
   const formRef = useRef(null);
-  const { state: { usuario } } = useContext(ContextoUsuario);
+  const { state: { usuario } } = useContext(Contexto);
   const item = usuario.item;
   const [state, setState] = useState(item);
   const options = [
