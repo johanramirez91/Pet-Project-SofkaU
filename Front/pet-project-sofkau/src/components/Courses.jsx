@@ -39,7 +39,7 @@ const Courses = () => {
                     swal("¡Se ha eliminado con exito!", {
                         icon: "success",
                     });
-                    eliminarUsuario(idCurso)
+                    eliminarCurso(idCurso)
                 } else {
                     swal("uff, que bueno que preguntamos");
                 }
@@ -55,17 +55,16 @@ const Courses = () => {
     };
 
 
-    const eliminarUsuario = (idCurso) => {
+    const eliminarCurso = (idCurso) => {
         console.log(idCurso)
         axios.delete(HOST_API_CURSO + "/" + idCurso)
             .then(response => {
-                console.log("Respuesta al eliminar-->" + response.data)
-                cargarUsuarios();
+                cargarCursos();
             });
 
     }
 
-    const cargarUsuarios = async () => {
+    const cargarCursos = async () => {
         setLoading(true)
         axios
             .get(HOST_API_CURSO + "/listar")

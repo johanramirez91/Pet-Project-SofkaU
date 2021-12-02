@@ -1,9 +1,10 @@
-import React, { useContext, useRef, useState, useEffect } from 'react';
+import React, { useContext, useRef, useState, useEffect, Fragment } from 'react';
 import { HOST_API_CURSO } from '../../config/hostApi';
 import Contexto from '../contexto/Contexto';
 import Select from 'react-select'
 import axios from 'axios';
 import { useParams } from 'react-router';
+import swal from 'sweetalert';
 
 const CursoEditForm = () => {
 
@@ -36,6 +37,35 @@ const CursoEditForm = () => {
         cargarCurso()
     }, []);
 
+
+    const redireccionar = () => {
+        window.history.back();
+    }
+
+    const validate = (event) => {
+        swal({
+            title: "¿Acutalizar?",
+            text: "¡Se ¿Acutalizará este curso en la base de datos!",
+            icon: "info",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((editar) => {
+                if (editar) {
+                    swal("¡Se ha actualizado con exito!", {
+                        icon: "success",
+                        button: true
+                    }).then((aceptar) => {
+                        onEdit(event);
+                    });
+
+                } else {
+                    swal("uff, que bueno que preguntamos");
+                    return;
+                }
+            });
+    }
+
     const onEdit = (event) => {
         event.preventDefault();
 
@@ -49,64 +79,83 @@ const CursoEditForm = () => {
         };
 
         axios.put(HOST_API_CURSO + "/" + id, request).then(response => {
-            console.log("Retorno de editar-->" + response.data);
+            redireccionar();
             formRef.current.reset();
         })
     }
 
     return (
-        <form className="form-inline" ref={formRef}>
-            <div className="shadow p-4 mb-2 bg-white rounded form-group mx-10">
-                <Select
-                    placeholder="Seleccione la disponibilidad"
-                    name="disponibilidad"
-                    options={options}
-                    onChange={(event) => {
-                        setState({ ...state, disponibilidad: event.value })
-                    }} />
-                <input
-                    className="form-control"
-                    type="text"
-                    name="nombre"
-                    placeholder="nombre"
-                    defaultValue={state.nombre}
-                    onChange={(event) => {
-                        setState({ ...state, nombre: event.target.value })
-                    }}  ></input>
-                <textarea
-                    className="form-control"
-                    type="text"
-                    name="descripcion"
-                    placeholder="descripcion"
-                    defaultValue={state.descripcion}
-                    onChange={(event) => {
-                        setState({ ...state, descripcion: event.target.value })
-                    }} />
-                <input
-                    className="form-control"
-                    type="text"
-                    name="duracion"
-                    placeholder="duracion"
-                    defaultValue={state.duracion}
-                    onChange={(event) => {
-                        setState({ ...state, duracion: event.target.value })
-                    }}  ></input>
-                <input
-                    className="form-control"
-                    type="text"
-                    name="precio"
-                    placeholder="precio"
-                    defaultValue={state.precio}
-                    onChange={(event) => {
-                        setState({ ...state, precio: event.target.value })
-                    }}  ></input>
-                <div className="m-4">
-                    <button className="btn btn-primary btn-lg" onClick={onEdit}>Actualizar</button>
-                </div>
-
+        <Fragment>
+            <div class="coontaniner m-5 ">
+                <form className="coontaniner m-5" ref={formRef}>
+                    <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >EDITAR CURSO</h1>
+                    <hr />
+                    <div className="shadow p-4 mb-2 bg-white rounded form-group mx-10">
+                        <div class="mb-3">
+                            <label class="form-label">Disponibilidad del curso</label>
+                            <Select
+                                placeholder="Seleccione la disponibilidad"
+                                name="disponibilidad"
+                                options={options}
+                                onChange={(event) => {
+                                    setState({ ...state, disponibilidad: event.value })
+                                }} />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del curso</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="nombre"
+                                placeholder="nombre"
+                                defaultValue={state.nombre}
+                                onChange={(event) => {
+                                    setState({ ...state, nombre: event.target.value })
+                                }}  ></input>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción del curso</label>
+                            <textarea
+                                className="form-control"
+                                type="text"
+                                name="descripcion"
+                                placeholder="descripcion"
+                                defaultValue={state.descripcion}
+                                onChange={(event) => {
+                                    setState({ ...state, descripcion: event.target.value })
+                                }} />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Duración del curso</label>
+                            <input
+                                className="form-control"
+                                type="number"
+                                name="duracion"
+                                placeholder="duracion"
+                                defaultValue={state.duracion}
+                                onChange={(event) => {
+                                    setState({ ...state, duracion: event.target.value })
+                                }}  ></input>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Precio del curso</label>
+                            <input
+                                className="form-control"
+                                type="number"
+                                name="precio"
+                                placeholder="precio"
+                                defaultValue={state.precio}
+                                onChange={(event) => {
+                                    setState({ ...state, precio: event.target.value })
+                                }}  ></input>
+                        </div>
+                    </div>
+                    <br></br>
+                </form>
+                <button className="btn btn-primary btn-lg mb-5 " onClick={validate}>Actualizar</button>
             </div>
-            <br></br>
-        </form>
+        </Fragment>
+
     );
 }
 

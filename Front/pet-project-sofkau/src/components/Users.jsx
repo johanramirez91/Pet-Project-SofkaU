@@ -3,7 +3,6 @@ import axios from 'axios';
 import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
 import swal from 'sweetalert';
-import { useAuth0 } from '@auth0/auth0-react';
 
 
 const Users = () => {
