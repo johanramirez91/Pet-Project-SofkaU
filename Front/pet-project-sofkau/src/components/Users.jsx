@@ -2,8 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import Loading from './Loading';
 import { HOST_API } from "../config/hostApi";
-import UsuarioFrom from './usuario/usuarioFrom';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import swal from 'sweetalert';
 
 
@@ -54,7 +52,7 @@ const Users = () => {
     };
 
     const onEdit = (id) => {
-        location.href = "http://localhost:3000/editar/:" + id;
+        location.href = "http://localhost:3000/editar/" + id;
     };
 
 
@@ -95,10 +93,14 @@ const Users = () => {
                 <div className="container-fluid container-md">
                     <h2 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }}>Lista de Usuarios</h2>
                     <hr />
-                    <form className="d-flex">
-                        {<input className="form-control me-2" placeholder="Buscar"
-                            value={busqueda} onChange={handleChange} />}
-                    </form>
+                    <div className="d-flex">
+                        <form >
+                            {<input className="form-control m-3" placeholder="Buscar"
+                                value={busqueda} onChange={handleChange} />}
+                        </form>
+                        <button className="btn btn-primary m-3"
+                            onClick={onAdd}>Agregar usuario</button>
+                    </div>
                     <br />
                     <table className="table table-hover align-middle text-center table-responsive">
                         <thead>
@@ -118,14 +120,14 @@ const Users = () => {
                                 <tr key={usuario.id}>
                                     <th scope="row">{index + 1}</th>
                                     <td>{usuario.nombre}</td>
-                                    <td>{usuario.correo}</td>
+                                    <td>{usuario.email}</td>
                                     <td>{usuario.telefono}</td>
                                     <td>{usuario.ubicacion}</td>
                                     <td>{usuario.rol}</td>
                                     <td>{usuario.fechaIngreso}</td>
                                     <td>
                                         <button className="btn btn-warning m-3"
-                                            onClick={() => onEdit(usuario)}>Editar</button>
+                                            onClick={() => onEdit(usuario.id)}>Editar</button>
                                         <button className="btn btn-danger"
                                             onClick={() => validate(usuario.id)}>Eliminar</button>
                                     </td>
