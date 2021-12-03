@@ -11,6 +11,9 @@ export default function Login() {
     const { loginWithPopup } = useAuth0();
     const { isAuthenticated, user } = useAuth0();
 
+    if (user) {
+        console.log(user.name)
+    }
 
     const authHandle = (userData) => {
         console.log(userData.profileObj)
@@ -51,7 +54,6 @@ export default function Login() {
                                 buttonText="Iniciar con Google"
                                 onSuccess={authHandle}
                                 onFailure={handleFailure}
-                                isSignedIn={true}
                                 cookiePolicy={'single_host_origin'}
                             />
                         </div>

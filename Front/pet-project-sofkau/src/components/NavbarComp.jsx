@@ -1,17 +1,12 @@
 import React, { Fragment } from 'react'
 import LogoCourseWare from "./LogoCourseWare.png"
-import { GoogleLogout } from 'react-google-login';
-import Logout from './Logout';
+import { GoogleLogout, useGoogleLogout } from 'react-google-login';
 import { useAuth0 } from '@auth0/auth0-react';
-import Login from './Login';
+import LogOut from './Logout';
 
 
-const NavbarComp = ({ usuario }) => {
+const NavbarComp = () => {
     const { isAuthenticated, user } = useAuth0();
-
-    const logout = (userData) => {
-        console.log(userData)
-    }
 
     return (
         <Fragment>
@@ -24,12 +19,8 @@ const NavbarComp = ({ usuario }) => {
                     </span>
                     <div className="d-grid gap-2 d-md-block d-md-flex">
                         {isAuthenticated ? (
-                            <GoogleLogout
-                                clientId="438215108595-f7lfe4tomh8bbpm3n30kj6q0bonhp705.apps.googleusercontent.com"
-                                buttonText="Logout Google"
-                                onLogoutSuccess={logout} />
+                            <LogOut />
                         ) : (<div className="d-grid gap-2 d-md-block d-md-flex">
-                            hola
                         </div>)}
 
                     </div>
