@@ -18,6 +18,7 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Autowired
     ConfigFireBase fireBase;
+    private boolean vacio = false;
 
     @Override
     public List<Usuario> list() {
@@ -56,29 +57,35 @@ public class UsuarioServiceImp implements UsuarioService {
     public Boolean add(Usuario usuario) {
         Map<String, Object> docAdd = getStringObjectMap(usuario);//Guardamos el objeto que llega en un arreglo Map
         CollectionReference usuarios = getCollection(); // Obtenemos todas las colleciones
-        ApiFuture<WriteResult> writeResultApiFuture = usuarios.document().create(docAdd); // Le enviamos la nueva lista de map a FireBase
-        try {
-            if(null != writeResultApiFuture.get()){
-                return true;
+        if(!vacio){
+            ApiFuture<WriteResult> writeResultApiFuture = usuarios.document().create(docAdd); // Le enviamos la nueva lista de map a FireBase
+            try {
+                if(null != writeResultApiFuture.get()){
+                    return true;
+                }
+                return false;
+            }catch (Exception e) {
+                return false;
             }
-            return false;
-        }catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
     @Override
     public Boolean edit(String id, Usuario usuario) {
         Map<String, Object> docEdit = getStringObjectMap(usuario); //Guardamos el objeto que llega en un arreglo Map
-        ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).set(docEdit);// Obtenemos el arreglo por el ID que pasamos por parametro y le enviamos la nueva lista de map a FireBase
-        try {
-            if(null != writeResultApiFuture.get()){
-                return true;
+        if(!vacio){
+            ApiFuture<WriteResult> writeResultApiFuture = getCollection().document(id).set(docEdit);// Obtenemos el arreglo por el ID que pasamos por parametro y le enviamos la nueva lista de map a FireBase
+            try {
+                if(null != writeResultApiFuture.get()){
+                    return true;
+                }
+                return false;
+            }catch (Exception e) {
+                return false;
             }
-            return false;
-        }catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
     @Override
@@ -96,13 +103,17 @@ public class UsuarioServiceImp implements UsuarioService {
 
     private Map<String, Object> getStringObjectMap(Usuario usuario) {
         Map<String, Object> docAdd = new HashMap<>();
-        docAdd.put("Nombre", usuario.getNombre());
-        docAdd.put("Email", usuario.getEmail());
-        docAdd.put("Telefono", usuario.getTelefono());
-        docAdd.put("Ubicacion", usuario.getUbicacion());
-        docAdd.put("FechaIngreso", usuario.getFechaIngreso());
-        docAdd.put("rol", usuario.getRol());
-        return docAdd;
+        if (usuario.getNombre().trim() != null && usuario.getEmail().trim() != null && usuario.getTelefono().trim() != null && usuario.getUbicacion().trim() != null && usuario.getFechaIngreso().trim() != null){
+            docAdd.put("Nombre", usuario.getNombre());
+            docAdd.put("Email", usuario.getEmail());
+            docAdd.put("Telefono", usuario.getTelefono());
+            docAdd.put("Ubicacion", usuario.getUbicacion());
+            docAdd.put("FechaIngreso", usuario.getFechaIngreso());
+            docAdd.put("rol", usuario.getRol());
+            return docAdd;
+        }
+        vacio = true;
+        return null;
     }
 
     //Obtenemos las collecciones (Datos) de la tabla cursos

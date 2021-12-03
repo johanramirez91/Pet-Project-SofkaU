@@ -15,6 +15,7 @@ import {
     Navigate
 } from 'react-router-dom';
 
+<<<<<<< HEAD
 export default function AppRouter({ usuario }) {
     const [isLogged, setIsLogged] = useState(false);
     const [userData, setUserData] = useState(null)
@@ -34,6 +35,26 @@ export default function AppRouter({ usuario }) {
                 <Route path="*" element={<Login />} />
             </Routes>
         </Router>
+=======
+const AppRouter = () => {
+    return (
+        <Fragment>
+            <div className="p-5">
+                <Router>
+                <Routes>
+                    <Route exact path='/' element={<Login />} />
+                    <Route exact path="/usuarios" element={<Users />} />
+                    <Route exact path="/addUsuario" element={<UsuarioFrom />} />
+                    <Route exact path="/editarUsuario/:id" element={<UsuarioEditForm />} />
+                    <Route exact path="/cursos" element={<Courses />} />
+                    <Route exact path="/addCurso" element={<CursoFrom />} />
+                    <Route exact path="/editarCurso/:id" element={<CursoEditForm />} />
+                </Routes>
+            </Router>
+            </div>
+            
+        </Fragment>
+>>>>>>> cbfc40069f53b6a376735e8d120fc585acb4d58a
     )
         :
         <Login />

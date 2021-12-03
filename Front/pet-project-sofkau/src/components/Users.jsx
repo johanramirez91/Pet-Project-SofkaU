@@ -10,7 +10,7 @@ const Users = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [busqueda, setBusqueda] = useState("")
 
-    const buscar = (textoBusqueda) => {
+    const buscar = (textoBusqueda) => { // Metodo para buscar, el cual recorre la lista de usuarios
         let resultado = usuarios.filter((elemento) => {
             if (elemento.nombre.toLowerCase().includes(textoBusqueda.toLowerCase())
                 || elemento.rol.toLowerCase().includes(textoBusqueda.toLowerCase())
@@ -19,7 +19,7 @@ const Users = () => {
                 return elemento;
             }
         });
-        setUsuarios(resultado);
+        setUsuarios(resultado); //Se envia los resultados de la busqueda al state
     }
 
     const handleChange = event => {
@@ -27,7 +27,7 @@ const Users = () => {
         buscar(event.target.value);
     }
 
-    const validate = (idUsuario) => {
+    const validate = (idUsuario) => {  // Creamos una cuadro de confirmacion 
         swal({
             title: "¿Eliminar?",
             text: "¡Recuerda, al eliminar no podrás recuperar este dato!",
@@ -40,7 +40,7 @@ const Users = () => {
                     swal("¡Se ha eliminado con exito!", {
                         icon: "success",
                     });
-                    eliminarUsuario(idUsuario)
+                    eliminarUsuario(idUsuario) //Llamamos el metodo para eliminar los datos
                 } else {
                     swal("uff, que bueno que preguntamos");
                 }
@@ -48,25 +48,24 @@ const Users = () => {
     }
 
     const onAdd = () => {
-        location.href = "http://localhost:3000/addUsuario";
+        location.href = "http://localhost:3000/addUsuario"; //Redireccionamos a la ruta para agregar datos
     };
 
     const onEdit = (id) => {
-        location.href = "http://localhost:3000/editarUsuario/" + id;
+        location.href = "http://localhost:3000/editarUsuario/" + id; //Redireccionamos a la ruta para editar datos y se enviar un ID
     };
 
 
-    const eliminarUsuario = (idUsuario) => {
+    const eliminarUsuario = (idUsuario) => { //Se hace una peticion delete para eliminar los datos
         console.log(idUsuario)
         axios.delete(HOST_API + "/usuario/" + idUsuario)
             .then(response => {
-                console.log("Respuesta al eliminar-->" + response.data)
-                cargarUsuarios();
+                cargarUsuarios(); // Se hace nuevamente una consulta para traer los datos de la base de datos
             });
 
     }
 
-    const cargarUsuarios = async () => {
+    const cargarUsuarios = async () => { //Se hace una consulta para traer los datos de la base de datos
         setLoading(true)
         axios
             .get(HOST_API + "/usuario/listar/")
@@ -77,7 +76,7 @@ const Users = () => {
             })
     }
 
-    useEffect(() => {
+    useEffect(() => { //Se hace una consulta para traer todos los datos guardados en la tabla
         axios
             .get(HOST_API + "/usuario/listar/")
             .then((response) => {
@@ -118,7 +117,7 @@ const Users = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {usuarios && usuarios.map((usuario, index) => (
+                            {usuarios && usuarios.map((usuario, index) => ( //Se recorre la lista de datos y se muestran en la tabla
                                 <tr key={usuario.id}>
                                     <th scope="row">{index + 1}</th>
                                     <td>{usuario.nombre}</td>

@@ -10,7 +10,7 @@ const Courses = () => {
     const [cursos, setCursos] = useState([]);
     const [busqueda, setBusqueda] = useState("")
 
-    const buscar = (textoBusqueda) => {
+    const buscar = (textoBusqueda) => { // Metodo para buscar, el cual recorre la lista de cursos
         let resultado = cursos.filter((elemento) => {
             if (elemento.nombre.toLowerCase().includes(textoBusqueda.toLowerCase())
                 || elemento.disponibilidad.toLowerCase().includes(textoBusqueda.toLowerCase())
@@ -18,7 +18,7 @@ const Courses = () => {
                 return elemento;
             }
         });
-        setCursos(resultado);
+        setCursos(resultado); //Se envia los resultados de la busqueda al state
     }
 
     const handleChange = event => {
@@ -26,7 +26,7 @@ const Courses = () => {
         buscar(event.target.value);
     }
 
-    const cargarCursos = async () => {
+    const cargarCursos = async () => { //Se hace una consulta para traer los datos de la base de datos
         setLoading(true)
         axios
             .get(HOST_API_CURSO + "/listar")
@@ -37,15 +37,15 @@ const Courses = () => {
             })
     }
 
-    const eliminarCurso = (idCurso) => {
+    const eliminarCurso = (idCurso) => { //Se hace una peticion delete para eliminar los datos
         console.log(idCurso)
         axios.delete(HOST_API_CURSO + "/" + idCurso)
             .then(response => {
-                cargarCursos();
+                cargarCursos(); // Se hace nuevamente una consulta para traer los datos de la base de datos
             });
     }
 
-    const validate = (idCurso) => {
+    const validate = (idCurso) => {  // Creamos una cuadro de confirmacion 
         swal({
             title: "¿Eliminar?",
             text: "¡Recuerda, al eliminar no podrás recuperar este dato!",
@@ -58,7 +58,7 @@ const Courses = () => {
                     swal("¡Se ha eliminado con exito!", {
                         icon: "success",
                     });
-                    eliminarCurso(idCurso)
+                    eliminarCurso(idCurso) //Llamamos el metodo para eliminar los datos
                 } else {
                     swal("uff, que bueno que preguntamos");
                 }
@@ -66,14 +66,14 @@ const Courses = () => {
     }
 
     const onAdd = () => {
-        location.href = "http://localhost:3000/addCurso";
+        location.href = "http://localhost:3000/addCurso"; //Redireccionamos a la ruta para agregar datos
     };
 
     const onEdit = (id) => {
-        location.href = "http://localhost:3000/editarCurso/" + id;
+        location.href = "http://localhost:3000/editarCurso/" + id; //Redireccionamos a la ruta para editar datos y se enviar un ID
     };
 
-    useEffect(() => {
+    useEffect(() => { //Se hace una consulta para traer todos los datos guardados en la tabla
         axios
             .get(HOST_API_CURSO + "/listar/")
             .then((response) => {
@@ -113,7 +113,7 @@ const Courses = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cursos && cursos.map((curso, index) => (
+                            {cursos && cursos.map((curso, index) => ( //Se recorre la lista de datos y se muestran en la tabla
                                 <tr key={curso.id}>
                                     <th scope="row">{index + 1}</th>
                                     <td>{curso.nombre}</td>

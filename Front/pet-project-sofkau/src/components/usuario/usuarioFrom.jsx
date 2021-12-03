@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 
 const UsuarioFrom = () => {
   const formRef = useRef(null);
-  const { state: { usuario } } = useContext(Contexto);
+  const { state: { usuario } } = useContext(Contexto); //Traemos el contexto global
   const item = usuario.item;
   const [state, setState] = useState(item);
   const options = [
@@ -20,7 +20,7 @@ const UsuarioFrom = () => {
     window.history.back();
   }
 
-  const validate = (event) => {
+  const validate = (event) => { // Creamos una cuadro de confirmacion 
     swal({
       title: "¿Agregar?",
       text: "¡Se agregará este nuevo usuario a la base de datos!",
@@ -34,7 +34,7 @@ const UsuarioFrom = () => {
             icon: "success",
             button: true
           }).then((aceptar) => {
-            onAdd(event);
+            onAdd(event);//Cuando sea exitoso se ira al evento de agregar
           });
 
         } else {
@@ -47,7 +47,7 @@ const UsuarioFrom = () => {
   const onAdd = (event) => {
     event.preventDefault();
 
-    const request = {
+    const request = {//Inicializamos los datos tomados en el state en un objeto
       nombre: state.nombre,
       id: null,
       rol: state.rol,
@@ -57,18 +57,18 @@ const UsuarioFrom = () => {
       fechaIngreso: state.fechaIngreso
     };
 
-    axios.post(HOST_API + "/usuario/add", request).then(response => {
-      redireccionar();
-      formRef.current.reset();
+    axios.post(HOST_API + "/usuario/add", request).then(response => {  // se realiza la peticion pos
+      redireccionar();// se redirecciona a la pagina anterior cuando el servidor nos responda
+      formRef.current.reset(); //Limpiamos los campos
     })
 
   }
 
-  return (
+  return (// Retornamos un formulario formulario
     <Fragment>
       <div class="coontaniner m-5 ">
         <form className="coontaniner m-5" ref={formRef}>
-          <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >AGREGAR NUEVO CURSO</h1>
+          <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >AGREGAR NUEVO USUARIO</h1>
           <hr />
           <div className="container-md shadow p-4 mb-2 bg-white rounded form-group mx-10">
             <div class="mb-3">
@@ -77,7 +77,7 @@ const UsuarioFrom = () => {
                 placeholder="Seleccione un rol"
                 name="rol"
                 options={options}
-                onChange={(event) => {
+                onChange={(event) => { //Con este evento se esta pendiente de los cambios que realice el usuario y los aplica al state
                   setState({ ...state, rol: event.value })
                 }} />
             </div>
