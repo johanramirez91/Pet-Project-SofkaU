@@ -90,7 +90,7 @@ const UsuarioEditForm = () => {
         <Fragment>
             <div class="coontaniner m-5 ">
                 <form className="coontaniner m-5" ref={formRef}>
-                    <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >AGREGAR NUEVO CURSO</h1>
+                    <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >EDITAR USUARIO</h1>
                     <hr />
                     <div className="container-md shadow p-4 mb-2 bg-white rounded form-group mx-10">
                         <div class="mb-3">
