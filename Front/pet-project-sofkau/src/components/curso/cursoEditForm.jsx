@@ -5,11 +5,12 @@ import Select from 'react-select'
 import axios from 'axios';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
+import { useNavigate } from 'react-router';
 
 const CursoEditForm = () => {
 
     let { id } = useParams();
-
+    let history = useNavigate();
     const formRef = useRef(null);
     const { state: { curso } } = useContext(Contexto); //Traemos el contexto global
     const item = curso.item;
@@ -28,7 +29,6 @@ const CursoEditForm = () => {
                 setState(response.data);
                 console.log(response.data)
                 setLoading(false)
-
             })
         setLoading(false)
     }
@@ -36,11 +36,6 @@ const CursoEditForm = () => {
     useEffect(() => {
         cargarCurso()
     }, []);
-
-
-    const redireccionar = () => {
-        window.history.back();
-    }
 
     const validate = (event) => { // Creamos una cuadro de confirmacion 
         swal({
@@ -57,6 +52,7 @@ const CursoEditForm = () => {
                         button: true
                     }).then((aceptar) => {
                         onEdit(event); //Cuando sea exitoso se ira al evento de editar
+                        history("/usuarios", { replace: true });
                     });
 
                 } else {
@@ -79,20 +75,19 @@ const CursoEditForm = () => {
         };
 
         axios.put(HOST_API_CURSO + "/" + id, request).then(response => { // se realiza la peticion put
-            redireccionar();// se redirecciona a la pagina anterior cuando el servidor nos responda
             formRef.current.reset(); //Limpiamos los campos del formulario
         })
     }
 
     return (// Retornamos un formulario formulario
         <Fragment>
-            <div class="coontaniner m-5 ">
-                <form className="coontaniner m-5" ref={formRef}>
-                    <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >EDITAR CURSO</h1>
+            <div className="contaniner-sm m-5">
+                <form className="contaniner m-2" ref={formRef}>
+                    <h1 className="text-center p-1" style={{ color: '#fe5a59' }} >Editar curso</h1>
                     <hr />
-                    <div className="shadow p-4 mb-2 bg-white rounded form-group mx-10">
-                        <div class="mb-3">
-                            <label class="form-label">Disponibilidad del curso</label>
+                    <div className="shadow p-3 mb-3 bg-white rounded form-group mx-10">
+                        <div className="mb-3">
+                            <label className="form-label">Disponibilidad del curso</label>
                             <Select
                                 placeholder="Seleccione la disponibilidad"
                                 name="disponibilidad"
@@ -101,8 +96,8 @@ const CursoEditForm = () => {
                                     setState({ ...state, disponibilidad: event.value })
                                 }} />
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del curso</label>
+                        <div className="mb-3">
+                            <label className="form-label">Nombre del curso</label>
                             <input
                                 className="form-control"
                                 type="text"
@@ -113,8 +108,8 @@ const CursoEditForm = () => {
                                     setState({ ...state, nombre: event.target.value })
                                 }}  ></input>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descripción del curso</label>
+                        <div className="mb-3">
+                            <label className="form-label">Descripción del curso</label>
                             <textarea
                                 className="form-control"
                                 type="text"
@@ -125,8 +120,8 @@ const CursoEditForm = () => {
                                     setState({ ...state, descripcion: event.target.value })
                                 }} />
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Duración del curso</label>
+                        <div className="mb-3">
+                            <label className="form-label">Duración del curso</label>
                             <input
                                 className="form-control"
                                 type="number"
@@ -137,8 +132,8 @@ const CursoEditForm = () => {
                                     setState({ ...state, duracion: event.target.value })
                                 }}  ></input>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Precio del curso</label>
+                        <div className="mb-3">
+                            <label className="form-label">Precio del curso</label>
                             <input
                                 className="form-control"
                                 type="number"
@@ -152,10 +147,12 @@ const CursoEditForm = () => {
                     </div>
                     <br></br>
                 </form>
-                <button className="btn btn-primary btn-lg mb-5 " onClick={validate}>Actualizar</button>
+                <div className="m-2 position-relative">
+                    <button className="btn btn-dark btn-lg mb-5 top-0 start-50 position-absolute translate-middle"
+                        onClick={validate}>Actualizar</button>
+                </div>
             </div>
         </Fragment>
-
     );
 }
 

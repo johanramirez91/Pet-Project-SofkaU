@@ -1,24 +1,14 @@
-import React from 'react'
-import { GoogleLogout } from 'react-google-login';
+import React from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
-const clientId = "438215108595-f7lfe4tomh8bbpm3n30kj6q0bonhp705.apps.googleusercontent.com"
+const Logout = () => {
 
-function Logout() {
-
-    const onSucces = () => {
-        console.log("Logout done")
-    };
+    const { Logout } = useAuth0();
 
     return (
-        <div>
-            <GoogleLogout
-                clientId={clientId}
-                buttonText="Salir"
-                onLogoutSuccess={onSucces}
-                redi
-            />
-        </div>
+        <button className="btn btn-danger"
+            onClick={() => Logout({ returnTo: "/" })}>Salir</button>
     )
 }
 
-export default Logout;
+export default Logout

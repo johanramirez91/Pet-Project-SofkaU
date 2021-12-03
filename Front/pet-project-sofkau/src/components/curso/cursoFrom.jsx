@@ -64,13 +64,13 @@ const CursoFrom = () => {
 
   return (// Retornamos un formulario formulario
     <Fragment>
-      <div class="coontaniner m-5 ">
-        <form className="coontaniner m-5" ref={formRef}>
-          <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >AGREGAR CURSO</h1>
+      <div className="contaniner-sm m-5">
+        <form className="contaniner m-3" ref={formRef}>
+          <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >Agregar curso</h1>
           <hr />
           <div className="shadow p-4 mb-2 bg-white rounded form-group mx-10">
-            <div class="mb-3">
-              <label class="form-label">Disponibilidad del curso</label>
+            <div className="mb-3">
+              <label className="form-label">Disponibilidad del curso</label>
               <Select
                 placeholder="Seleccione la disponibilidad"
                 name="disponibilidad"
@@ -79,8 +79,8 @@ const CursoFrom = () => {
                   setState({ ...state, disponibilidad: event.value })
                 }} />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Nombre del curso</label>
+            <div className="mb-3">
+              <label className="form-label">Nombre del curso</label>
               <input
                 className="form-control"
                 type="text"
@@ -91,8 +91,8 @@ const CursoFrom = () => {
                   setState({ ...state, nombre: event.target.value })
                 }}  ></input>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Descripción del curso</label>
+            <div className="mb-3">
+              <label className="form-label">Descripción del curso</label>
               <textarea
                 className="form-control"
                 type="text"
@@ -103,8 +103,8 @@ const CursoFrom = () => {
                   setState({ ...state, descripcion: event.target.value })
                 }} />
             </div>
-            <div class="mb-3">
-              <label class="form-label">Duración del curso</label>
+            <div className="mb-3">
+              <label className="form-label">Duración del curso</label>
               <input
                 className="form-control"
                 type="number"
@@ -115,8 +115,8 @@ const CursoFrom = () => {
                   setState({ ...state, duracion: event.target.value })
                 }}  ></input>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Precio del curso</label>
+            <div className="mb-3">
+              <label className="form-label">Precio del curso</label>
               <input
                 className="form-control"
                 type="number"
@@ -130,7 +130,10 @@ const CursoFrom = () => {
           </div>
           <br></br>
         </form>
-        <button className="btn btn-primary btn-lg mb-5" onClick={validate}>Agregar</button>
+        <div className="position-relative mt-3">
+          <button className="btn btn-dark btn-lg mb-5 top-0 start-50 position-absolute translate-middle"
+            onClick={validate}>Crear</button>
+        </div>
       </div>
     </Fragment>
   );

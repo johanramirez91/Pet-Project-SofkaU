@@ -5,11 +5,12 @@ import Select from 'react-select'
 import axios from 'axios';
 import { useParams } from 'react-router';
 import swal from 'sweetalert';
+import { useNavigate } from 'react-router';
 
 const UsuarioEditForm = () => {
 
     let { id } = useParams();
-
+    let history = useNavigate();
     const formRef = useRef(null);
     const { state: { usuario } } = useContext(Contexto); //Traemos el contexto global
     const item = usuario.item;
@@ -19,7 +20,7 @@ const UsuarioEditForm = () => {
         { value: 'ADMINISTRADOR', label: 'ADMINISTRADOR' },
         { value: 'PROFESOR', label: 'PROFESOR' }
     ]
-    const [loading, setLoading] = useState(true) 
+    const [loading, setLoading] = useState(true)
 
     const cargarUsuario = async () => { //Hacemos una peticion para traer el usuario por su ID
         setLoading(true)
@@ -29,7 +30,6 @@ const UsuarioEditForm = () => {
                 setState(response.data);
                 console.log(response.data)
                 setLoading(false)
-
             })
         setLoading(false)
     }
@@ -37,11 +37,6 @@ const UsuarioEditForm = () => {
     useEffect(() => {
         cargarUsuario()
     }, []);
-
-
-    const redireccionar = () => {
-        window.history.back();
-    }
 
     const validate = (event) => { // Creamos una cuadro de confirmacion 
         swal({
@@ -58,8 +53,8 @@ const UsuarioEditForm = () => {
                         button: true
                     }).then((aceptar) => {
                         onEdit(event); //Cuando sea exitoso se ira al evento de editar
+                        history("/usuarios", { replace: true });
                     });
-
                 } else {
                     swal("uff, que bueno que preguntamos");
                     return;
@@ -81,20 +76,19 @@ const UsuarioEditForm = () => {
         };
 
         axios.put(HOST_API + "/usuario/" + id, request).then(response => { // se realiza la peticion put
-            redireccionar(); // se redirecciona a la pagina anterior cuando el servidor nos responda
             formRef.current.reset(); //Limpiamos los campos del formulario
         })
     }
 
-    return ( // Retornamos un formulario formulario
+    return (
         <Fragment>
-            <div class="coontaniner m-5 ">
-                <form className="coontaniner m-5" ref={formRef}>
-                    <h1 className="text-center mt-3 p-1" style={{ color: '#fe5a59' }} >EDITAR USUARIO</h1>
+            <div className="contaniner m-5">
+                <form className="contaniner m-2" ref={formRef}>
+                    <h1 className="text-center mt-1 p-1" style={{ color: '#fe5a59' }} >Editar usuario</h1>
                     <hr />
-                    <div className="container-md shadow p-4 mb-2 bg-white rounded form-group mx-10">
-                        <div class="mb-3">
-                            <label class="form-label">Rol del usuario</label>
+                    <div className="container-md shadow p-3 mb-3 bg-white rounded form-group mx-10">
+                        <div className="mb-2">
+                            <label className="form-label">Rol del usuario</label>
                             <Select
                                 placeholder="Seleccione un rol"
                                 name="rol"
@@ -103,56 +97,56 @@ const UsuarioEditForm = () => {
                                     setState({ ...state, rol: event.value })
                                 }} />
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del usuario</label>
+                        <div className="mb-3">
+                            <label className="form-label">Nombre del usuario</label>
                             <input
                                 className="form-control"
                                 type="text"
                                 name="nombre"
-                                placeholder="nombre"
+                                placeholder={usuario.nombre}
                                 defaultValue={state.nombre}
                                 onChange={(event) => {
                                     setState({ ...state, nombre: event.target.value })
                                 }}  ></input>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email del usuario</label>
+                        <div className="mb-3">
+                            <label className="form-label">Email del usuario</label>
                             <input
                                 className="form-control"
                                 type="text"
                                 name="email"
-                                placeholder="email"
+                                placeholder={usuario.email}
                                 defaultValue={state.email}
                                 onChange={(event) => {
                                     setState({ ...state, email: event.target.value })
                                 }}  ></input>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Telefono del usuario</label>
+                        <div className="mb-3">
+                            <label className="form-label">Teléfono del usuario</label>
                             <input
                                 className="form-control"
                                 type="number"
                                 name="telefono"
-                                placeholder="telefono"
+                                placeholder={usuario.telefono}
                                 defaultValue={state.telefono}
                                 onChange={(event) => {
                                     setState({ ...state, telefono: event.target.value })
                                 }}  ></input>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Ubicación del usuario</label>
+                        <div className="mb-3">
+                            <label className="form-label">Ubicación del usuario</label>
                             <input
                                 className="form-control"
                                 type="text"
                                 name="ubicacion"
-                                placeholder="ubicacion"
+                                placeholder={state.ubicacion}
                                 defaultValue={state.ubicacion}
                                 onChange={(event) => {
                                     setState({ ...state, ubicacion: event.target.value })
                                 }}  ></input>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Fecha de ingreso del usuario</label>
+                        <div className="mb-3">
+                            <label className="form-label">Fecha de ingreso del usuario</label>
                             <input
                                 className="form-control"
                                 type="date"
@@ -166,8 +160,9 @@ const UsuarioEditForm = () => {
                     </div>
                     <br></br>
                 </form>
-                <div className="m-4">
-                    <button className="btn btn-primary btn-lg mb-5" onClick={validate}>Actualizar</button>
+                <div className="m-2 position-relative">
+                    <button className="btn btn-dark btn-lg mb-5 top-0 start-50 position-absolute translate-middle"
+                        onClick={validate}>Actualizar</button>
                 </div>
             </div>
         </Fragment>

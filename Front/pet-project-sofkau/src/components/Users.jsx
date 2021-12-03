@@ -18,6 +18,7 @@ const Users = () => {
                 || elemento.fechaIngreso.includes(textoBusqueda.toLowerCase())) {
                 return elemento;
             }
+            setUsuarios(usuarios)
         });
         setUsuarios(resultado); //Se envia los resultados de la busqueda al state
     }
