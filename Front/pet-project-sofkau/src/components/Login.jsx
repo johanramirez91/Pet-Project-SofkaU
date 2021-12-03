@@ -18,6 +18,7 @@ export default function Login() {
     const authHandle = (userData) => {
         console.log(userData.profileObj)
         history("/usuarios", { replace: true })
+
     }
 
     const handleFailure = (failData) => {
@@ -45,8 +46,8 @@ export default function Login() {
                         <div className="p-3">
                             <img src={Icon} alt="logo" width="100" href="#" />
                         </div>
-                        <button type="submit" className="btn btn-dark btn-block btn-lg"
-                            onClick={() => loginWithPopup()}>¡Vamos!</button>
+                        <button type="submit" className="btn btn-dark btn-block btn-lg disabled"
+                        >¡Vamos!</button>
                         <br></br>
                         <div className="form-group p-3">
                             <GoogleLogin

@@ -8,7 +8,6 @@ function App() {
 
   return (
     <StoreFromProvider>
-      <NavbarComp />
       <AppRouter />
       <Footer />
     </StoreFromProvider>

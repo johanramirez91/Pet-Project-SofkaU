@@ -25,7 +25,9 @@
     "react-use-googlelogin": "^0.12.5",
     "reactstrap": "^9.0.1",
     "sweetalert": "^2.1.2",
+    "uglify-js": "github:mishoo/UglifyJS2#harmony",
     "web-vitals": "^1.0.1"
+    
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,7 +44,6 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
       "not op_mini all"
     ],
     "development": [

@@ -9,7 +9,6 @@ function LogOut() {
         console.log("loggedOut");
         let history = useNavigate();
         history("/", { replace: true })
-
     }
 
     const onFailure = () => {

@@ -13,8 +13,8 @@ import {
     Redirect,
     Route,
     Routes,
-    Navigate
 } from 'react-router-dom';
+import { NavbarComp } from './NavbarComp';
 
 export default function AppRouter({ usuario }) {
     const { isAuthenticated, user, isLoading } = useAuth0();
@@ -25,6 +25,7 @@ export default function AppRouter({ usuario }) {
 
     return user !== false ? (
         <Router>
+            <NavbarComp usuario={user} />
             <Routes>
                 <Route exact path='/' element={<Login />} />
                 <Route path='/usuarios' element={<Users />} />

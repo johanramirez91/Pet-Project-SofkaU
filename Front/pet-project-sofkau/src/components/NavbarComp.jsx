@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react'
 import LogoCourseWare from "./LogoCourseWare.png"
-import { GoogleLogout, useGoogleLogout } from 'react-google-login';
 import { useAuth0 } from '@auth0/auth0-react';
 import LogOut from './Logout';
+import { Link } from 'react-router-dom'
 
-
-const NavbarComp = () => {
+export const NavbarComp = ({ usuario }) => {
     const { isAuthenticated, user } = useAuth0();
 
     return (
@@ -19,7 +18,11 @@ const NavbarComp = () => {
                     </span>
                     <div className="d-grid gap-2 d-md-block d-md-flex">
                         {isAuthenticated ? (
-                            <LogOut />
+                            <Fragment>
+                                <Link className="btn btn-secondary bg-gradient" data-bs-toggle="button" to="/cursos" exact >Lista Cursos</Link>
+                                <Link className="btn btn-secondary bg-gradient" data-bs-toggle="button" to="/usuarios" exact >Lista Usuarios</Link>
+                                <Link className="btn btn-danger bg-gradient" data-bs-toggle="button" to="/" exact >Salir</Link>
+                            </Fragment>
                         ) : (<div className="d-grid gap-2 d-md-block d-md-flex">
                         </div>)}
 
@@ -29,5 +32,3 @@ const NavbarComp = () => {
         </Fragment>
     )
 }
-
-export default NavbarComp;
