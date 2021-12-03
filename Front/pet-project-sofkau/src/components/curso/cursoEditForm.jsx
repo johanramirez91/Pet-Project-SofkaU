@@ -52,7 +52,7 @@ const CursoEditForm = () => {
                         button: true
                     }).then((aceptar) => {
                         onEdit(event); //Cuando sea exitoso se ira al evento de editar
-                        history("/usuarios", { replace: true });
+                        history("/cursos", { replace: true });
                     });
 
                 } else {
