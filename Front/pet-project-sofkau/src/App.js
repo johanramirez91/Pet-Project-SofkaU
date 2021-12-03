@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavbarComp from "./components/NavbarComp";
 import StoreFromProvider from "./components/contexto/State";
 import Footer from "./components/Footer";

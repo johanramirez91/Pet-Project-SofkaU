@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import GoogleLogin from 'react-google-login';
-import useHistory from 'react-router';
-import { Auth0Provider } from '@auth0/auth0-react';
+import React, { useState } from 'react';
+import { GoogleLogin } from 'react-google-login';
+import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
+export default function Login() {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [user, setUser] = useState()
+    let history = useNavigate();
 
     // Estados Error
     const [errorEmail, setErrorEmail] = useState(null)
@@ -37,20 +36,23 @@ const Login = () => {
         setPassword('')
         setErrorEmail(null)
         setErrorPassword(null)
+
+        history("/usuarios", { replace: true });
     }
 
     const responseGoogle = (response) => {
-        console.log(response.profileObj);
+        console.log("login faliled");
+    }
+
+    const authHandle = (userData) => {
+        console.log(userData.profileObj)
+        history("/usuarios", { replace: true })
     }
 
     const handleCheckbox = async (event) => {
         event.preventDefault();
         const user = { email, password };
         localStorage.setItem("user", user);
-    }
-
-    if (user) {
-        return <div>{user.email}, ya has iniciado sesión</div>;
     }
 
     return (
@@ -126,7 +128,7 @@ const Login = () => {
                             <GoogleLogin
                                 clientId="438215108595-f7lfe4tomh8bbpm3n30kj6q0bonhp705.apps.googleusercontent.com"
                                 buttonText="Iniciar con Google"
-                                onSuccess={responseGoogle}
+                                onSuccess={authHandle}
                                 onFailure={responseGoogle}
                                 cookiePolicy={'single_host_origin'}
                             />
@@ -137,5 +139,3 @@ const Login = () => {
         </div>
     );
 }
-
-export default Login;
