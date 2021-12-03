@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 
 const CursoFrom = () => {
   const formRef = useRef(null);
-  const { state: { curso } } = useContext(Contexto);
+  const { state: { curso } } = useContext(Contexto); //Traemos el contexto global
   const item = curso.item;
   const [state, setState] = useState(item);
   const options = [
@@ -19,7 +19,7 @@ const CursoFrom = () => {
     window.history.back();
   }
 
-  const validate = (event) => {
+  const validate = (event) => { // Creamos una cuadro de confirmacion 
     swal({
       title: "¿Agregar?",
       text: "¡Se agregará este nuevo curso a la base de datos!",
@@ -33,7 +33,7 @@ const CursoFrom = () => {
             icon: "success",
             button: true
           }).then((aceptar) => {
-            onAdd(event);
+            onAdd(event); //Cuando sea exitoso se ira al evento de agregar
           });
 
         } else {
@@ -46,7 +46,7 @@ const CursoFrom = () => {
   const onAdd = (event) => {
     event.preventDefault();
 
-    const request = {
+    const request = { //Inicializamos los datos tomados en el state en un objeto
       id: null,
       nombre: state.nombre,
       descripcion: state.descripcion,
@@ -55,14 +55,14 @@ const CursoFrom = () => {
       precio: state.precio
     };
 
-    axios.post(HOST_API_CURSO + "/add", request).then(response => {
+    axios.post(HOST_API_CURSO + "/add", request).then(response => { // se realiza la peticion pos
       console.log("Retorno de añadir-->" + response.data);
-      formRef.current.reset();
-      redireccionar();
+      redireccionar();// se redirecciona a la pagina anterior cuando el servidor nos responda
+      formRef.current.reset(); //Limpiamos los campos
     })
   }
 
-  return (
+  return (// Retornamos un formulario formulario
     <Fragment>
       <div class="coontaniner m-5 ">
         <form className="coontaniner m-5" ref={formRef}>
@@ -75,7 +75,7 @@ const CursoFrom = () => {
                 placeholder="Seleccione la disponibilidad"
                 name="disponibilidad"
                 options={options}
-                onChange={(event) => {
+                onChange={(event) => { //Con este evento se esta pendiente de los cambios que realice el usuario y los aplica al state
                   setState({ ...state, disponibilidad: event.value })
                 }} />
             </div>

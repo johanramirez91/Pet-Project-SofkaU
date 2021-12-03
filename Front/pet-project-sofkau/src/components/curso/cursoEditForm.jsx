@@ -11,7 +11,7 @@ const CursoEditForm = () => {
     let { id } = useParams();
 
     const formRef = useRef(null);
-    const { state: { curso } } = useContext(Contexto);
+    const { state: { curso } } = useContext(Contexto); //Traemos el contexto global
     const item = curso.item;
     const [state, setState] = useState(item);
     const options = [
@@ -20,7 +20,7 @@ const CursoEditForm = () => {
     ]
     const [loading, setLoading] = useState(true)
 
-    const cargarCurso = async () => {
+    const cargarCurso = async () => { //Hacemos una peticion para traer el curso por su ID
         setLoading(true)
         const listaTemporal = await axios
             .get(HOST_API_CURSO + "/" + id)
@@ -42,7 +42,7 @@ const CursoEditForm = () => {
         window.history.back();
     }
 
-    const validate = (event) => {
+    const validate = (event) => { // Creamos una cuadro de confirmacion 
         swal({
             title: "¿Acutalizar?",
             text: "¡Se ¿Acutalizará este curso en la base de datos!",
@@ -56,7 +56,7 @@ const CursoEditForm = () => {
                         icon: "success",
                         button: true
                     }).then((aceptar) => {
-                        onEdit(event);
+                        onEdit(event); //Cuando sea exitoso se ira al evento de editar
                     });
 
                 } else {
@@ -69,7 +69,7 @@ const CursoEditForm = () => {
     const onEdit = (event) => {
         event.preventDefault();
 
-        const request = {
+        const request = { //Inicializamos los datos del state en un objeto
             id: id,
             nombre: state.nombre,
             descripcion: state.descripcion,
@@ -78,13 +78,13 @@ const CursoEditForm = () => {
             precio: state.precio
         };
 
-        axios.put(HOST_API_CURSO + "/" + id, request).then(response => {
-            redireccionar();
-            formRef.current.reset();
+        axios.put(HOST_API_CURSO + "/" + id, request).then(response => { // se realiza la peticion put
+            redireccionar();// se redirecciona a la pagina anterior cuando el servidor nos responda
+            formRef.current.reset(); //Limpiamos los campos del formulario
         })
     }
 
-    return (
+    return (// Retornamos un formulario formulario
         <Fragment>
             <div class="coontaniner m-5 ">
                 <form className="coontaniner m-5" ref={formRef}>
@@ -97,7 +97,7 @@ const CursoEditForm = () => {
                                 placeholder="Seleccione la disponibilidad"
                                 name="disponibilidad"
                                 options={options}
-                                onChange={(event) => {
+                                onChange={(event) => { //Con este evento se esta pendiente de los cambios que realice el usuario y los aplica al state
                                     setState({ ...state, disponibilidad: event.value })
                                 }} />
                         </div>

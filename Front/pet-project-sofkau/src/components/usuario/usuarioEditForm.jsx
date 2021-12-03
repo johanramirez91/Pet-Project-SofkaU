@@ -11,7 +11,7 @@ const UsuarioEditForm = () => {
     let { id } = useParams();
 
     const formRef = useRef(null);
-    const { state: { usuario } } = useContext(Contexto);
+    const { state: { usuario } } = useContext(Contexto); //Traemos el contexto global
     const item = usuario.item;
     const [state, setState] = useState(item);
     const options = [
@@ -19,9 +19,9 @@ const UsuarioEditForm = () => {
         { value: 'ADMINISTRADOR', label: 'ADMINISTRADOR' },
         { value: 'PROFESOR', label: 'PROFESOR' }
     ]
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true) 
 
-    const cargarUsuario = async () => {
+    const cargarUsuario = async () => { //Hacemos una peticion para traer el usuario por su ID
         setLoading(true)
         const listaTemporal = await axios
             .get(HOST_API + "/usuario/" + id)
@@ -43,7 +43,7 @@ const UsuarioEditForm = () => {
         window.history.back();
     }
 
-    const validate = (event) => {
+    const validate = (event) => { // Creamos una cuadro de confirmacion 
         swal({
             title: "¿Acutalizar?",
             text: "¡Se ¿Acutalizará este usuario en la base de datos!",
@@ -57,7 +57,7 @@ const UsuarioEditForm = () => {
                         icon: "success",
                         button: true
                     }).then((aceptar) => {
-                        onEdit(event);
+                        onEdit(event); //Cuando sea exitoso se ira al evento de editar
                     });
 
                 } else {
@@ -70,7 +70,7 @@ const UsuarioEditForm = () => {
     const onEdit = (event) => {
         event.preventDefault();
 
-        const request = {
+        const request = { //Inicializamos los datos del state en un objeto
             nombre: state.nombre,
             id: id,
             rol: state.rol,
@@ -80,13 +80,13 @@ const UsuarioEditForm = () => {
             fechaIngreso: state.fechaIngreso
         };
 
-        axios.put(HOST_API + "/usuario/" + id, request).then(response => {
-            redireccionar();
-            formRef.current.reset();
+        axios.put(HOST_API + "/usuario/" + id, request).then(response => { // se realiza la peticion put
+            redireccionar(); // se redirecciona a la pagina anterior cuando el servidor nos responda
+            formRef.current.reset(); //Limpiamos los campos del formulario
         })
     }
 
-    return (
+    return ( // Retornamos un formulario formulario
         <Fragment>
             <div class="coontaniner m-5 ">
                 <form className="coontaniner m-5" ref={formRef}>
@@ -99,7 +99,7 @@ const UsuarioEditForm = () => {
                                 placeholder="Seleccione un rol"
                                 name="rol"
                                 options={options}
-                                onChange={(event) => {
+                                onChange={(event) => { //Con este evento se esta pendiente de los cambios que realice el usuario y los aplica al state
                                     setState({ ...state, rol: event.value })
                                 }} />
                         </div>

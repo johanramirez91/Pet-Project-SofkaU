@@ -16,7 +16,8 @@ import {
 const AppRouter = () => {
     return (
         <Fragment>
-            <Router>
+            <div className="p-5">
+                <Router>
                 <Routes>
                     <Route exact path='/' element={<Login />} />
                     <Route exact path="/usuarios" element={<Users />} />
@@ -27,6 +28,8 @@ const AppRouter = () => {
                     <Route exact path="/editarCurso/:id" element={<CursoEditForm />} />
                 </Routes>
             </Router>
+            </div>
+            
         </Fragment>
     )
 }
